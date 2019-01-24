@@ -57,7 +57,6 @@ app.use(logRequest);
 app.post("/newList", (req, res) => createNewList(req, res, fs));
 app.get("/loadTodoItems", (req, res) => getTodoItems(req, res, fs));
 app.get("/loadListDetails", (req, res) => getListDetails(req, res, fs));
-app.get("/loadTodoLists", (req, res) => getTodoItems(req, res, todoItems));
 app.post("/addTodoItem", (req, res) => addTodoItem(req, res, fs));
 app.use(fileHandler.bind(null, fs));
 

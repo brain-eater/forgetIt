@@ -3,6 +3,7 @@ const HOME_PAGE = "/index.html";
 
 const fileHandler = function(fs, req, res) {
   const filePath = getFilePath(req.url);
+  console.log(filePath);
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
