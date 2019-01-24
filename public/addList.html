@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="listScript.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="/"><<</a> ForgetIt</h1>
+    </header>
+    <main>
+      <div class="addTodoList">
+        <form action="/newList" method="POST">
+          <strong>Title : </strong> <input type="text" name="title" />
+          <strong>Description : </strong>
+          <textarea
+            style="line-height: 220%"
+            name="description"
+            cols="100"
+            rows="5"
+          ></textarea>
+          <input type="button" onclick="postListDetails()" value="Save List" />
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

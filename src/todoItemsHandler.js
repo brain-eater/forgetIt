@@ -1,17 +1,18 @@
-const addTodoItem = function(req, res, todoItems, fs) {
-  todoItems.push(req.body);
-  fs.writeFile("./data/todoItems.json", JSON.stringify(todoItems), err =>
-    res.send("")
-  );
+const addTodoItem = function(req, res, fs) {
+  const { currentListName } = req.cookies;
+  const listFilePath = `./data/${currentListName}`;
+  let listJson = fs.readFileSync(listFilePath, "utf8");
+  let list = JSON.parse(listJson);
+  list.items.push(req.body);
+  fs.writeFile(listFilePath, JSON.stringify(list), err => res.send(""));
 };
 
-const getTodoItems = function(req, res, todoItems) {
-  res.send(JSON.stringify(todoItems));
+const getTodoItems = function(req, res, fs) {
+  const { currentListName } = req.cookies;
+  todoItems = fs.readFile(`./data/${currentListName}`, "utf8", (err, data) => {
+    let { items } = JSON.parse(data);
+    res.send(JSON.stringify(items));
+  });
 };
 
-const loadTodoItems = function(fs) {
-  todoItems = fs.readFileSync("./data/todoItems.json");
-  return JSON.parse(todoItems);
-};
-
-module.exports = { addTodoItem, getTodoItems, loadTodoItems };
+module.exports = { addTodoItem, getTodoItems };

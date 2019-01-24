@@ -9,8 +9,6 @@ const fileHandler = function(fs, req, res) {
       res.send("file not found", 404);
       return 1;
     }
-    console.log(data);
-
     res.send(data);
   });
 };
