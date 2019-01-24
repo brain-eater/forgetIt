@@ -1,0 +1,9 @@
+header {
+  text-align: center;
+  border-bottom: 1px black solid;
+}
+
+.addTodo {
+  display: flex;
+  margin: 30px;
+}
