@@ -55,10 +55,11 @@ const getTodoItems = function(req, res, todo) {
 };
 
 const loadData = function(fs) {
-  let data = "{}";
+  let data;
   try {
     data = fs.readFileSync(dataFilePath, "utf-8");
   } catch (err) {
+    data = "{}";
     fs.writeFileSync(dataFilePath, data);
   }
   return JSON.parse(data);

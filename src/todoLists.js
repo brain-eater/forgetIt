@@ -11,12 +11,12 @@ class Todo {
   constructor(lists) {
     this.lists = lists;
   }
+
   addList(list) {
     let key;
     do {
       key = generateRandomNum();
     } while (includes(this.lists, key));
-    console.log(key);
 
     this.lists[key] = list;
     return key;
