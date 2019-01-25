@@ -9,5 +9,7 @@ const postListDetails = function() {
   fetch("/newList", {
     method: "POST",
     body: JSON.stringify(listDetails)
-  }).then(res => window.open(`/lists/${title}`, "_self"));
+  })
+    .then(res => res.text())
+    .then(key => window.open(`/lists/${key}`, "_self"));
 };

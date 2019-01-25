@@ -14,9 +14,7 @@ const fileHandler = function(req, res, fs, requestedUrl) {
 };
 
 const getFilePath = function(url) {
-  if (url == "/") {
-    url = HOME_PAGE;
-  }
+  if (url == "/") url = HOME_PAGE;
   return ROOT + url;
 };
 

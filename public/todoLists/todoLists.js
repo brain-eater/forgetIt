@@ -12,9 +12,9 @@ const createElemets = function() {
   return { listDiv, titleHeading, descriptionPara, link };
 };
 
-const createListDiv = function({ title, description }) {
+const createListDiv = function(key, { title, description }) {
   const { listDiv, titleHeading, descriptionPara, link } = createElemets();
-  link.href = `/lists/${title}`;
+  link.href = `/lists/${key}`;
   link.innerHTML = "<button>open List</button>";
   titleHeading.innerText = title;
   descriptionPara.innerText = description;
@@ -25,7 +25,9 @@ const createListDiv = function({ title, description }) {
 
 const showLists = function(lists) {
   let mainDiv = document.getElementById("todoLists");
-  const listDivs = lists.map(createListDiv);
+  const listDivs = Object.keys(lists).map(key =>
+    createListDiv(key, lists[key])
+  );
   listDivs.forEach(div => {
     mainDiv.appendChild(div);
   });
