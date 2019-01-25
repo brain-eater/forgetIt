@@ -1,5 +1,6 @@
 const ROOT = "./public";
 const HOME_PAGE = "/index.html";
+const dataFilePath = "./data/todoLists.json";
 
 const fileHandler = function(req, res, fs, requestedUrl) {
   const url = requestedUrl || req.url;
@@ -18,4 +19,33 @@ const getFilePath = function(url) {
   return ROOT + url;
 };
 
-module.exports = fileHandler;
+const readPostedData = function(req, res, next) {
+  let data = "";
+  req.on("data", chunk => (data += chunk));
+  req.on("end", () => {
+    req.body = data;
+    next();
+  });
+};
+
+const updateData = function(fs, todo) {
+  const json = JSON.stringify(todo.getLists());
+  fs.writeFile(dataFilePath, json, err => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
+
+const loadData = function(fs) {
+  let data;
+  try {
+    data = fs.readFileSync(dataFilePath, "utf-8");
+  } catch (err) {
+    data = "{}";
+    fs.writeFileSync(dataFilePath, data);
+  }
+  return JSON.parse(data);
+};
+
+module.exports = { fileHandler, readPostedData, updateData, loadData };
