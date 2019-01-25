@@ -1,6 +1,20 @@
 header {
-  text-align: center;
   border-bottom: 1px black solid;
+}
+
+.heading {
+  padding-bottom: 3px;
+  border-bottom: 1px black solid;
+}
+
+.title {
+  margin: 10px auto;
+  width: 150px;
+  height: fit-content;
+}
+
+a {
+  text-decoration: none;
 }
 
 .addTodo {
@@ -9,11 +23,12 @@ header {
 }
 
 input[type="text"],
+input[type="password"],
 button {
-  font-size: 20px;
-
-  line-height: 180%;
-  width: fit-content;
+  font-size: 16px;
+  line-height: 150%;
+  padding: 3px;
+  width: 250px;
 }
 
 input[type="submit"] {
@@ -21,13 +36,29 @@ input[type="submit"] {
   font-size: 20px;
 }
 
+input[type="button"],
+button {
+  padding: 5px;
+  background-color: #80c8d1;
+  font-size: 16px;
+}
+button:hover,
+input[type="button"]:hover {
+  background-color: #2174b6;
+  color: white;
+}
+
 main {
+  font-family: sans-serif;
   margin: 20px;
 }
 
 form {
-  width: 500px;
-  height: 250px;
+  background-color: #f0f0f0;
+  border: 2px black solid;
+  width: fit-content;
+  padding: 30px;
+  height: 270px;
   justify-content: space-between;
   align-items: flex-start;
   margin: 40 auto;
@@ -36,16 +67,17 @@ form {
 }
 
 .flexContainer {
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
 .flexContainer > div {
+  margin-top: 60px;
   padding: 30px;
-  margin: 2%;
-  flex: 0 30%;
-  width: 100%;
-  border: red solid;
+  width: 350px;
+  height: 350px;
+  background-color: #f0f0f0;
   box-sizing: border-box;
 }

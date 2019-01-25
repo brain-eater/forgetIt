@@ -1,12 +1,29 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css" />
+    <script src="login.js"></script>
     <title>ForgetIt</title>
   </head>
   <body>
-    <header><h1>ForgetIt</h1></header>
+    <header>
+      <a href="/"><h1 class="title">ForgetIt</h1></a>
+    </header>
     <main>
-      <a href="/lists"><button>Go to Todo lists</button></a>
+      <div>
+        <form style="align-items: center">
+          <h1>ForgetIt</h1>
+          <strong style="align-self:center">Sign In </strong>
+          <input type="text" name="uname" placeholder="&#x1f464;  Username" />
+          <input type="password" name="pwd" placeholder="&#x1f512;  Password" />
+          <p id="status" hidden></p>
+          <input
+            style="width:100px"
+            type="button"
+            onclick="postUserDetails()"
+            value="Sign In"
+          />
+        </form>
+      </div>
     </main>
   </body>
 </html>

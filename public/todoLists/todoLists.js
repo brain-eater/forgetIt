@@ -7,6 +7,7 @@ const loadTodoLists = function() {
 const createElemets = function() {
   let listDiv = document.createElement("div");
   let titleHeading = document.createElement("h2");
+  titleHeading.className = "heading";
   let descriptionPara = document.createElement("p");
   let link = document.createElement("a");
   return { listDiv, titleHeading, descriptionPara, link };
