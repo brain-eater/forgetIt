@@ -8,14 +8,21 @@ header {
   margin: 30px;
 }
 
-input[type="text"] {
+input[type="text"],
+button {
+  font-size: 20px;
+
   line-height: 200%;
-  width: 200px;
+  width: fit-content;
 }
 
 input[type="submit"] {
   width: 100px;
   font-size: 20px;
+}
+
+main {
+  margin: 20px;
 }
 
 form {
@@ -26,4 +33,19 @@ form {
   margin: 40 auto;
   display: flex;
   flex-direction: column;
+}
+
+.flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.flexContainer > div {
+  padding: 30px;
+  margin: 2%;
+  flex: 0 30%;
+  width: 100%;
+  border: red solid;
+  box-sizing: border-box;
 }

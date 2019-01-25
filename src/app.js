@@ -2,27 +2,14 @@ const Express = require("./express");
 const app = new Express();
 const fileHandler = require("./fileHandler");
 const fs = require("fs");
-const { addTodoItem, getTodoItems } = require("./todoItemsHandler");
+const { addTodoItem } = require("./todoItemsHandler");
 
-let todoItems = []; //Global variable
+const todoListPath = "/todoItems/todoItems.html";
+const allListPath = "/todoLists/todoLists.html";
+let todoLists = []; //GlobalVariable
 
 const logRequest = function(req, res, next) {
   console.log(req.url);
-  next();
-};
-
-const readCookies = function(req, res, next) {
-  const cookie = req.headers["cookie"];
-  let cookies = {};
-  if (cookie) {
-    cookie.split(";").forEach(element => {
-      let [name, value] = element.split("=");
-      name = name.trim();
-      cookies[name] = value;
-    });
-  }
-  req.cookies = cookies;
-
   next();
 };
 
@@ -35,29 +22,50 @@ const readPostedData = function(req, res, next) {
   });
 };
 
+const writeToDataFile = function(fs) {
+  fs.writeFile(`./data/todoLists.json`, JSON.stringify(todoLists), err => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
+
 const createNewList = function(req, res, fs) {
   const list = JSON.parse(req.body);
   list.items = [];
-  fs.writeFile(`./data/${list.title}`, JSON.stringify(list), err => {
-    res.setHeader("Set-Cookie", `currentListName=${list.title}`);
-    res.send("/todoItems/todoItems.html");
-  });
+  todoLists.push(list);
+  writeToDataFile(fs);
+  res.end();
 };
 
-const getListDetails = function(req, res, fs) {
-  const { currentListName } = req.cookies;
-  fs.readFile(`./data/${currentListName}`, "utf8", function(err, data) {
-    res.send(data);
-  });
+const getTodoLists = function(req, res, fs) {
+  res.sendJson(todoLists);
 };
 
-app.use(readCookies);
+const getTodoItems = function(req, res, fs) {
+  const listTitle = req.url.match(/\/lists\/(.*)\.json/)[1];
+  let requestList = todoLists.filter(list => list.title == listTitle)[0];
+  res.sendJson(requestList);
+};
+
+const loadData = function(fs) {
+  let data = fs.readFileSync("./data/todoLists.json", "utf-8");
+  todoLists = JSON.parse(data);
+};
+
+loadData(fs);
+const writeToDataFileWithFs = writeToDataFile.bind(null, fs);
+
 app.use(readPostedData);
 app.use(logRequest);
 app.post("/newList", (req, res) => createNewList(req, res, fs));
-app.get("/loadTodoItems", (req, res) => getTodoItems(req, res, fs));
-app.get("/loadListDetails", (req, res) => getListDetails(req, res, fs));
-app.post("/addTodoItem", (req, res) => addTodoItem(req, res, fs));
-app.use(fileHandler.bind(null, fs));
+app.get("/todoLists", (req, res) => getTodoLists(req, res, fs));
+app.get(/\/lists\/.*\.json/, (req, res) => getTodoItems(req, res, fs));
+app.post(/\/lists\/.*\/addItem/, (req, res) =>
+  addTodoItem(req, res, todoLists, writeToDataFileWithFs)
+);
+app.get(/\/lists\/.*/, (req, res) => fileHandler(req, res, fs, todoListPath));
+app.get(/\/lists/, (req, res) => fileHandler(req, res, fs, allListPath));
+app.use((req, res) => fileHandler(req, res, fs));
 
 module.exports = app.handleRequest.bind(app);
