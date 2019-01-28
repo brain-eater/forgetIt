@@ -11,6 +11,13 @@ const send = function(data, statusCode = 200) {
   this.end();
 };
 
+const redirect = function(url) {
+  this.writeHead(302, {
+    Location: url
+  });
+  this.end();
+};
+
 const sendJson = function(data, statusCode = 200) {
   this.writeHead(statusCode, { "Content-Type": "application/json" });
   this.write(JSON.stringify(data));
@@ -36,6 +43,7 @@ class Express {
 
   handleRequest(req, res) {
     res.send = send;
+    res.redirect = redirect;
     res.sendJson = sendJson;
     let matchingRoutes = this.routes.filter(r => isMatching(req, r));
     let remaining = [...matchingRoutes];

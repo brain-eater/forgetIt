@@ -2,13 +2,17 @@ header {
   border-bottom: 1px black solid;
 }
 
+header > .logout {
+  margin-left: 80%;
+}
+
 .heading {
   padding-bottom: 3px;
   border-bottom: 1px black solid;
 }
 
 .title {
-  margin: 10px auto;
+  margin: 0px auto;
   width: 150px;
   height: fit-content;
 }
@@ -38,7 +42,8 @@ input[type="submit"] {
 
 input[type="button"],
 button {
-  padding: 5px;
+  width: fit-content;
+  padding: 5px 80px;
   background-color: #80c8d1;
   font-size: 16px;
 }
@@ -74,10 +79,21 @@ form {
 }
 
 .flexContainer > div {
+  position: relative;
   margin-top: 60px;
   padding: 30px;
   width: 350px;
   height: 350px;
   background-color: #f0f0f0;
   box-sizing: border-box;
+}
+
+.flexContainer > div > a {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+
+.flexContainer > div > a > button {
+  padding: 5px 10px;
 }

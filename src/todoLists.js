@@ -1,32 +1,22 @@
-const generateRandomNum = function() {
-  const fourDigitFloat = Math.random() * 8999 + 1000;
-  return Math.floor(fourDigitFloat);
-};
-
-const includes = function(obj, key) {
-  return obj[key] != undefined;
-};
+const { getUniqueNum, convertToNum } = require("./utils");
 
 class Todo {
   constructor(lists) {
     this.lists = lists;
   }
 
-  addList(list) {
-    let key;
-    do {
-      key = generateRandomNum();
-    } while (includes(this.lists, key));
-
+  addTodo(list) {
+    const listIds = convertToNum(Object.keys(this.lists));
+    let key = getUniqueNum(4, listIds);
     this.lists[key] = list;
     return key;
   }
 
-  getList(key) {
+  getTodo(key) {
     return this.lists[key];
   }
 
-  getLists() {
+  getTodos() {
     return this.lists;
   }
 }

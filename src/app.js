@@ -1,69 +1,87 @@
 const Express = require("./express");
 const app = new Express();
+const { fileHandler, readPostedData, loadUserData } = require("./fileHandler");
 const {
-  fileHandler,
-  readPostedData,
-  updateData,
-  loadData
-} = require("./fileHandler");
-const fs = require("fs");
-const Users = require("./user");
-const Todo = require("./todoLists");
-const addTodoItem = require("./todoItemsHandler");
+  addTodoItem,
+  createNewTodo,
+  getTodoItems,
+  getTodos
+} = require("./todoHandlers");
+const Users = require("./users");
+const { cookieHandler } = require("./cookie");
+const { loginUser, logoutUser } = require("./authentication");
+const { TODO_PAGE_PATH, ALL_TODOS_PAGE_PATH } = require("./constants");
 
-const todoListPath = "/todoItems/todoItems.html";
-const allListPath = "/todoLists/todoLists.html";
-
-let todo, users; //global object
+let users; //global object
+let activeUsers = {}; //global object
 
 const logRequest = function(req, res, next) {
-  console.log(req.url);
+  console.log(`${req.method} ${req.url}`);
   next();
 };
 
-const createNewList = function(req, res, todo, fs) {
-  const list = JSON.parse(req.body);
-  list.items = [];
-  const listNo = todo.addList(list);
-  updateData(fs, todo);
-  res.send(listNo.toString());
-};
-
-const getTodoLists = function(req, res, todo) {
-  res.sendJson(todo.getLists());
-};
-
-const getTodoItems = function(req, res, todo) {
-  const listKey = req.url.match(/\/lists\/(.*)\.json/)[1];
-  const list = todo.getList(listKey);
-  res.sendJson(list);
-};
-
-const authenticate = function(req, res) {
-  let userToValidate = JSON.parse(req.body);
-  if (users.isUserPresent(userToValidate)) {
-    res.send("welcome");
+const homepageHandler = function(req, res) {
+  const { auth_key } = req.cookies;
+  if (activeUsers[auth_key]) {
+    res.redirect("/lists");
     return;
   }
-  res.send("try again");
+  fileHandler(req, res);
 };
 
-const { listData, userData } = loadData(fs);
-todo = new Todo(listData);
+const logoutHandler = (req, res) => {
+  const { auth_key } = req.cookies;
+  activeUsers[auth_key] = undefined;
+  logoutUser(auth_key, res);
+};
+
+const loginHandler = (req, res) => {
+  let user = JSON.parse(req.body);
+  const userId = users.getUserId(user);
+  if (userId) {
+    loginUser(userId, activeUsers, res);
+    return;
+  }
+  res.send("Try again");
+};
+
+const isUserActive = function(req, res, next) {
+  const { auth_key } = req.cookies;
+  if (!activeUsers[auth_key]) {
+    res.redirect("/");
+    return;
+  }
+  next();
+};
+
+// initialize
+const userData = loadUserData();
 users = new Users(userData);
 
-// app.use(readCookies);
+const getAllTodosPage = (req, res, next) =>
+  fileHandler(req, res, next, ALL_TODOS_PAGE_PATH);
+const getSpecificTodoPage = (req, res, next) =>
+  fileHandler(req, res, next, TODO_PAGE_PATH);
+const newTodoHandler = (req, res) => createNewTodo(req, res, activeUsers);
+const todosHandler = (req, res) => getTodos(req, res, activeUsers);
+const todoItemsHandler = (req, res) => getTodoItems(req, res, activeUsers);
+const newTodoItemHandler = (req, res) => addTodoItem(req, res, activeUsers);
+
+app.use(cookieHandler);
 app.use(readPostedData);
 app.use(logRequest);
-app.post("/login", authenticate);
-app.post("/newList", (req, res) => createNewList(req, res, todo, fs));
-app.get("/todoLists", (req, res) => getTodoLists(req, res, todo));
-app.get(/\/lists\/.*\.json/, (req, res) => getTodoItems(req, res, todo));
-app.post(/\/lists\/.*\/addItem/, (req, res) =>
-  addTodoItem(req, res, todo, updateData.bind(null, fs, todo))
-);
-app.get(/\/lists\/.*/, (req, res) => fileHandler(req, res, fs, todoListPath));
-app.get(/\/lists/, (req, res) => fileHandler(req, res, fs, allListPath));
-app.use((req, res) => fileHandler(req, res, fs));
+app.get("/", homepageHandler);
+app.get("/style.css", fileHandler);
+app.get("/login.js", fileHandler);
+app.post("/login", loginHandler);
+app.use(isUserActive);
+app.get("/logout", logoutHandler);
+app.post("/newList", newTodoHandler);
+app.get("/todoLists", todosHandler);
+app.get(/\/lists\/.*\.json/, todoItemsHandler);
+app.post(/\/lists\/.*\/addItem/, newTodoItemHandler);
+app.get(/\/lists\/.*/, getSpecificTodoPage);
+app.get(/\/lists/, getAllTodosPage);
+app.use(fileHandler);
 
 module.exports = app.handleRequest.bind(app);

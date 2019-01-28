@@ -1,9 +1,7 @@
-const ROOT = "./public";
-const HOME_PAGE = "/index.html";
-const dataFilePath = "./data/todoLists.json";
-const userDataFilePath = "./data/users.json";
+const { ROOT, HOME_PAGE, USERS_LOGIN_DETAILS_PATH } = require("./constants");
+const fs = require("fs");
 
-const fileHandler = function(req, res, fs, requestedUrl) {
+const fileHandler = function(req, res, next, requestedUrl) {
   const url = requestedUrl || req.url;
   const filePath = getFilePath(url);
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -29,43 +27,19 @@ const readPostedData = function(req, res, next) {
   });
 };
 
-const updateData = function(fs, todo) {
-  const json = JSON.stringify(todo.getLists());
-  fs.writeFile(dataFilePath, json, err => {
-    if (err) {
-      console.log(err);
-    }
-  });
-};
-
-const loadListsData = function(fs) {
+const loadUserData = function() {
   let data;
   try {
-    data = fs.readFileSync(dataFilePath, "utf-8");
-  } catch (err) {
-    data = "{}";
-    fs.writeFileSync(dataFilePath, data);
-  }
-  return data;
-};
-
-const loadUserData = function(fs) {
-  let data;
-  try {
-    data = fs.readFileSync(userDataFilePath, "utf-8");
+    data = fs.readFileSync(USERS_LOGIN_DETAILS_PATH, "utf-8");
   } catch (err) {
     data = "[]";
     fs.writeFileSync(userDataFilePath, data);
   }
-  return data;
+  return JSON.parse(data);
 };
 
-const loadData = function(fs) {
-  let listDataJson = loadListsData(fs);
-  let userDataJson = loadUserData(fs);
-  let listData = JSON.parse(listDataJson);
-  let userData = JSON.parse(userDataJson);
-  return { listData, userData };
+module.exports = {
+  fileHandler,
+  readPostedData,
+  loadUserData
 };
-
-module.exports = { fileHandler, readPostedData, updateData, loadData };
