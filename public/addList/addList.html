@@ -10,7 +10,7 @@
     </header>
     <main>
       <div class="addTodoList">
-        <form action="/newList">
+        <form>
           <strong>Title : </strong> <input type="text" name="title" />
           <strong>Description : </strong>
           <textarea
@@ -19,7 +19,7 @@
             cols="60"
             rows="5"
           ></textarea>
-          <button onclick="postListDetails()">Save List</button>
+          <input type="button" onclick="postListDetails()" value="Save" />
         </form>
       </div>
     </main>

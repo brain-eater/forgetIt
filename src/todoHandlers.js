@@ -26,7 +26,7 @@ const createNewTodo = function(req, res, activeUsers) {
   const { auth_key } = req.cookies;
   let { id, todos } = activeUsers[auth_key];
   const todoNo = todos.addTodo(todo);
-  updateUserFile(todos.getTodoItems, id);
+  updateUserFile(id, todos.getTodos());
   res.send(todoNo.toString());
 };
 
