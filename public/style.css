@@ -92,13 +92,24 @@ form {
 #edit {
   position: absolute;
   bottom: 5%;
-  right: 30%;
+  right: 5%;
 }
 
 #del {
   position: absolute;
-  bottom: 5%;
-  right: 5%;
+  background-color: #f0f0f0;
+  border: 0;
+  top: 3%;
+  right: 0px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 100%;
+  padding: 0px 7px;
+}
+
+#del:hover {
+  background-color: lightgray;
+  color: black;
 }
 
 .flexContainer > div > a > button {

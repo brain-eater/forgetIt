@@ -25,7 +25,7 @@ const loginUser = (userId, activeUsers, res) => {
   const auth_key = updateActiveUsers(userId, activeUsers);
   let cookie = createLoginCookie(auth_key);
   res.setHeader("Set-cookie", cookie);
-  res.redirect("/lists");
+  res.redirect("/todos");
 };
 
 module.exports = { loginUser, logoutUser };

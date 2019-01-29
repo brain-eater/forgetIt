@@ -1,5 +1,5 @@
-const loadTodoLists = function() {
-  fetch("/todoLists")
+const loadTodos = function() {
+  fetch("/todos.json")
     .then(res => res.json())
     .then(todos => showTodos(todos));
 };
@@ -12,7 +12,7 @@ const createElemets = function() {
   let editLink = document.createElement("a");
   editLink.id = "edit";
   let delBtn = document.createElement("button");
-  delBtn.innerText = "Delete";
+  delBtn.innerHTML = "&#x2716;";
   delBtn.id = "del";
   return { todoDiv, titleHeading, descriptionPara, editLink, delBtn };
 };
@@ -26,7 +26,7 @@ const createTodoDiv = function({ id, title, description }) {
     delBtn
   } = createElemets();
   todoDiv.id = id;
-  editLink.href = `/lists/${id}`;
+  editLink.href = `/todos/${id}`;
   editLink.innerHTML = "<button>Edit</button>";
   delBtn.onclick = deleteTodo;
   titleHeading.innerText = title;
@@ -37,7 +37,8 @@ const createTodoDiv = function({ id, title, description }) {
 };
 
 const showTodos = function(todos) {
-  let mainDiv = document.getElementById("todoLists");
+  let mainDiv = document.getElementById("allTodos");
+  mainDiv.innerHTML = "";
   const todoDivs = todos.map(todo => createTodoDiv(todo));
   todoDivs.forEach(div => {
     mainDiv.appendChild(div);
@@ -52,13 +53,13 @@ const deleteTodo = function() {
   const clickedBtn = event.target;
   const todoDiv = clickedBtn.closest("div");
   const todoId = todoDiv.id;
-  const mainDiv = todoDiv.parentElement;
-  mainDiv.removeChild(todoDiv);
-  fetch(`/lists/del/${todoId}`);
+  fetch(`/todos/del/${todoId}`).then(() => {
+    loadTodos();
+  });
 };
 
 const intialize = function() {
-  loadTodoLists();
+  loadTodos();
 };
 
 window.onload = intialize;

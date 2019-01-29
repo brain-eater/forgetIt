@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const getTodoKey = url => url.match(/\/lists\/(.*)\.json/)[1];
+const getTodoKey = url => url.match(/\/todos\/(.*)\.json/)[1];
 
 const updateUserFile = function(userId, todos) {
   fs.writeFile(`./data/${userId}.json`, JSON.stringify(todos), err => {
@@ -9,10 +9,11 @@ const updateUserFile = function(userId, todos) {
 };
 
 const deleteTodo = function(req, res) {
-  const todoId = req.url.match(/\/lists\/del\/(.*)/)[1];
+  const todoId = req.url.match(/\/todos\/del\/(.*)/)[1];
   let { id, todos } = req.currUser;
   todos.removeTodo(todoId);
   updateUserFile(id, todos.get());
+  res.end();
 };
 
 const updateTodo = function(req, res) {

@@ -1,5 +1,6 @@
 const decrementId = function(todo) {
   todo.id--;
+  return todo;
 };
 
 class Todos {

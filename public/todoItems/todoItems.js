@@ -21,7 +21,7 @@ const addTodoItem = function() {
   enableSaveBtn();
 };
 
-const loadList = function() {
+const loadTodo = function() {
   const url = window.location.href;
   fetch(url + ".json")
     .then(res => res.json())
@@ -64,7 +64,7 @@ const save = function() {
   }).then(() => {
     saveButton.innerText = "Saved";
     setTimeout(() => {
-      saveButton.innerText = "Save";
+      saveButton.innerText = "Save Changes";
     }, 1000);
     disableSaveBtn();
   });
@@ -89,7 +89,7 @@ const toggle = function() {
 };
 
 const intialize = function() {
-  loadList();
+  loadTodo();
 };
 
 window.onload = intialize;

@@ -24,7 +24,7 @@ const logRequest = function(req, res, next) {
 const homepageHandler = function(req, res) {
   const { auth_key } = req.cookies;
   if (activeUsers[auth_key]) {
-    res.redirect("/lists");
+    res.redirect("/todos");
     return;
   }
   fileHandler(req, res);
@@ -73,13 +73,13 @@ app.get("/login.js", fileHandler);
 app.post("/login", loginHandler);
 app.use(isUserActive);
 app.get("/logout", logoutHandler);
-app.post("/newList", createNewTodo);
-app.get("/todoLists", getTodos);
-app.get(/\/lists\/del\/.*/, deleteTodo);
-app.get(/\/lists\/.*\.json/, getTodoItems);
+app.post("/newTodo", createNewTodo);
+app.get("/todos.json", getTodos);
+app.get(/\/todos\/del\/.*/, deleteTodo);
+app.get(/\/todos\/.*\.json/, getTodoItems);
 app.post("/saveTodo", updateTodo);
-app.get(/\/lists\/.*/, getSpecificTodoPage);
-app.get(/\/lists/, getAllTodosPage);
+app.get(/\/todos\/.*/, getSpecificTodoPage);
+app.get("/todos", getAllTodosPage);
 app.use(fileHandler);
 
 module.exports = app.handleRequest.bind(app);
