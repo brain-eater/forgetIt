@@ -21,14 +21,13 @@
   position: absolute;
   right: 1%;
   top: 0%;
-  width: 100px;
-  height: 40px;
-  line-height: 0px;
-  margin: 10px;
+  margin: 20px;
 }
 
 .flexContainer > div > p {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: large;
+  width: 900px;
+  word-wrap: break-word;
 }

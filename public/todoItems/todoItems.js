@@ -1,4 +1,6 @@
 let todo;
+const REFRESH_UNICODE = "&#x21bb;";
+const TICK_UNICODE = "&#x2713;";
 
 const displayTodo = function() {
   let titleEle = document.getElementById("title");
@@ -37,9 +39,10 @@ const generateTodoItemDiv = function(todoItem) {
   let todoItemText = document.createElement("p");
   todoItemText.innerText = todoItem.text;
   let doneBtn = document.createElement("button");
-  let text = todoItem.done ? "UnDone" : "Done";
+  let text = todoItem.done ? REFRESH_UNICODE : TICK_UNICODE;
   doneBtn.onclick = toggle;
-  doneBtn.innerText = text;
+  doneBtn.className = "roundBtn";
+  doneBtn.innerHTML = text;
   doneBtn.id = todoItem.id;
   todoItemDiv.appendChild(todoItemText);
   todoItemDiv.appendChild(doneBtn);
@@ -83,8 +86,8 @@ const toggle = function() {
   const itemId = toggleBtn.id - 1;
   let prevStatus = todo.items[itemId].done;
   todo.items[itemId].done = !prevStatus;
-  let prevText = toggleBtn.innerText;
-  toggleBtn.innerText = prevText == "Done" ? "UnDone" : "Done";
+  let prevTextCode = toggleBtn.innerText.charCodeAt();
+  toggleBtn.innerHTML = prevTextCode == 10003 ? REFRESH_UNICODE : TICK_UNICODE;
   enableSaveBtn();
 };
 

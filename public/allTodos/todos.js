@@ -13,6 +13,7 @@ const createElemets = function() {
   editLink.id = "edit";
   let delBtn = document.createElement("button");
   delBtn.innerHTML = "&#x2716;";
+  delBtn.className = "roundBtn";
   delBtn.id = "del";
   return { todoDiv, titleHeading, descriptionPara, editLink, delBtn };
 };
