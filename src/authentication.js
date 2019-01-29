@@ -1,5 +1,5 @@
 const { getUniqueNum } = require("./utils");
-const Todo = require("./todoLists");
+const Todos = require("./todoLists");
 const fs = require("fs");
 const { createLoginCookie } = require("./cookie");
 
@@ -7,7 +7,7 @@ const updateActiveUsers = function(id, activeUsers) {
   const existingAuthKeys = Object.keys(activeUsers);
   const auth_key = getUniqueNum(3, existingAuthKeys);
   fs.readFile(`./data/${id}.json`, "utf8", (err, data) => {
-    const todos = new Todo(JSON.parse(data));
+    const todos = new Todos(JSON.parse(data));
     let userDetails = { id, todos };
     activeUsers[auth_key] = userDetails;
   });
@@ -15,7 +15,7 @@ const updateActiveUsers = function(id, activeUsers) {
   return auth_key;
 };
 
-const logoutUser = function(auth_key, res) {
+const logoutUser = function(res) {
   let cookie = createLoginCookie(null);
   res.setHeader("Set-cookie", cookie);
   res.redirect("/");

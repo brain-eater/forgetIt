@@ -9,39 +9,49 @@ const updateUserFile = function(userId, todos) {
   });
 };
 
+const deleteTodo = function(req, res) {
+  const todoKey = req.url.match(/\/lists\/del\/(.*)/)[1];
+  let { id, todos } = req.currUser;
+  const currUserTodos = todos.get();
+  currUserTodos[todoKey] = undefined;
+  updateUserFile(id, currUserTodos);
+};
+
 const addTodoItem = function(req, res, activeUsers) {
-  const { auth_key } = req.cookies;
-  const listKey = getTodoKey(req.url);
-  const { id, todos } = activeUsers[auth_key];
-  const todo = todos.getTodo(listKey);
+  const todoKey = getTodoKey(req.url);
+  const { id, todos } = req.currUser;
+  const todo = todos.getTodo(todoKey);
   const item = req.body;
   todo.items.push(item);
-  updateUserFile(id, todos.getTodos());
+  updateUserFile(id, todos.get());
   res.end();
 };
 
-const createNewTodo = function(req, res, activeUsers) {
+const createNewTodo = function(req, res) {
   const todo = JSON.parse(req.body);
   todo.items = [];
-  const { auth_key } = req.cookies;
-  let { id, todos } = activeUsers[auth_key];
+  let { id, todos } = req.currUser;
   const todoNo = todos.addTodo(todo);
-  updateUserFile(id, todos.getTodos());
+  updateUserFile(id, todos.get());
   res.send(todoNo.toString());
 };
 
-const getTodos = function(req, res, activeUsers) {
-  const { auth_key } = req.cookies;
-  const { todos } = activeUsers[auth_key];
-  res.sendJson(todos.getTodos());
+const getTodos = function(req, res) {
+  const { todos } = req.currUser;
+  res.sendJson(todos.get());
 };
 
-const getTodoItems = function(req, res, activeUsers) {
-  const { auth_key } = req.cookies;
-  const listKey = getListKey(req.url);
-  const { todos } = activeUsers[auth_key];
-  const list = todos.getTodo(listKey);
-  res.sendJson(list);
+const getTodoItems = function(req, res) {
+  const todoKey = getListKey(req.url);
+  const { todos } = req.currUser;
+  const todo = todos.getTodo(todoKey);
+  res.sendJson(todo);
 };
 
-module.exports = { addTodoItem, createNewTodo, getTodoItems, getTodos };
+module.exports = {
+  addTodoItem,
+  createNewTodo,
+  getTodoItems,
+  getTodos,
+  deleteTodo
+};

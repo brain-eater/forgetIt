@@ -5,31 +5,43 @@ const loadTodoLists = function() {
 };
 
 const createElemets = function() {
-  let listDiv = document.createElement("div");
+  let todoDiv = document.createElement("div");
   let titleHeading = document.createElement("h2");
   titleHeading.className = "heading";
   let descriptionPara = document.createElement("p");
-  let link = document.createElement("a");
-  return { listDiv, titleHeading, descriptionPara, link };
+  let editLink = document.createElement("a");
+  editLink.id = "edit";
+  let delBtn = document.createElement("button");
+  delBtn.innerText = "Delete";
+  delBtn.id = "del";
+  return { todoDiv, titleHeading, descriptionPara, editLink, delBtn };
 };
 
-const createListDiv = function(key, { title, description }) {
-  const { listDiv, titleHeading, descriptionPara, link } = createElemets();
-  link.href = `/lists/${key}`;
-  link.innerHTML = "<button>open List</button>";
+const createTodoDiv = function(key, { title, description }) {
+  const {
+    todoDiv,
+    titleHeading,
+    descriptionPara,
+    editLink,
+    delBtn
+  } = createElemets();
+  todoDiv.id = key;
+  editLink.href = `/lists/${key}`;
+  editLink.innerHTML = "<button >Edit</button>";
+  delBtn.onclick = deleteTodo;
   titleHeading.innerText = title;
   descriptionPara.innerText = description;
-  const childDivs = [titleHeading, descriptionPara, link];
-  childDivs.forEach(append.bind(null, listDiv));
-  return listDiv;
+  const childDivs = [titleHeading, descriptionPara, editLink, delBtn];
+  childDivs.forEach(append.bind(null, todoDiv));
+  return todoDiv;
 };
 
 const showLists = function(lists) {
   let mainDiv = document.getElementById("todoLists");
-  const listDivs = Object.keys(lists).map(key =>
-    createListDiv(key, lists[key])
+  const todoDivs = Object.keys(lists).map(key =>
+    createTodoDiv(key, lists[key])
   );
-  listDivs.forEach(div => {
+  todoDivs.forEach(div => {
     mainDiv.appendChild(div);
   });
 };
@@ -38,4 +50,17 @@ const append = function(mainDiv, childDiv) {
   mainDiv.appendChild(childDiv);
 };
 
-window.onload = loadTodoLists;
+const deleteTodo = function() {
+  const clickedBtn = event.target;
+  const todoDiv = clickedBtn.closest("div");
+  const todoId = todoDiv.id;
+  const mainDiv = todoDiv.parentElement;
+  mainDiv.removeChild(todoDiv);
+  fetch(`/lists/del/${todoId}`);
+};
+
+const intialize = function() {
+  loadTodoLists();
+};
+
+window.onload = intialize;

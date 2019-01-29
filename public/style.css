@@ -89,7 +89,13 @@ form {
   box-sizing: border-box;
 }
 
-.flexContainer > div > a {
+#edit {
+  position: absolute;
+  bottom: 5%;
+  right: 30%;
+}
+
+#del {
   position: absolute;
   bottom: 5%;
   right: 5%;
@@ -97,4 +103,12 @@ form {
 
 .flexContainer > div > a > button {
   padding: 5px 10px;
+  margin-right: 10px;
+  width: 80px;
+}
+
+.flexContainer > div > button {
+  padding: 5px 10px;
+  margin-right: 10px;
+  width: 80px;
 }

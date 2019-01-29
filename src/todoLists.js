@@ -1,24 +1,24 @@
 const { getUniqueNum, convertToNum } = require("./utils");
 
-class Todo {
-  constructor(lists) {
-    this.lists = lists;
+class Todos {
+  constructor(todos) {
+    this.todos = todos;
   }
 
   addTodo(list) {
-    const listIds = convertToNum(Object.keys(this.lists));
+    const listIds = convertToNum(Object.keys(this.todos));
     let key = getUniqueNum(4, listIds);
-    this.lists[key] = list;
+    this.todos[key] = list;
     return key;
   }
 
   getTodo(key) {
-    return this.lists[key];
+    return this.todos[key];
   }
 
-  getTodos() {
-    return this.lists;
+  get() {
+    return this.todos;
   }
 }
 
-module.exports = Todo;
+module.exports = Todos;

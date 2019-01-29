@@ -5,9 +5,6 @@ const updateTodoList = function() {
   fetch(url + ".json")
     .then(res => res.json())
     .then(({ title, description, items }) => {
-      console.log(items);
-      console.log("here");
-
       titleEle.innerText = title;
       descriptionEle.innerText = description;
       showTodoItems(items);
@@ -15,8 +12,6 @@ const updateTodoList = function() {
 };
 
 const addTodoItem = function() {
-  console.log("there");
-
   const todoItemTextBox = document.getElementsByName("todoItem")[0];
   const body = todoItemTextBox.value;
   todoItemTextBox.value = "";
