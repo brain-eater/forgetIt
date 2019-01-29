@@ -2,7 +2,7 @@ const Express = require("./express");
 const app = new Express();
 const { fileHandler, readPostedData, loadUserData } = require("./fileHandler");
 const {
-  addTodoItem,
+  updateTodo,
   createNewTodo,
   getTodoItems,
   getTodos,
@@ -77,7 +77,7 @@ app.post("/newList", createNewTodo);
 app.get("/todoLists", getTodos);
 app.get(/\/lists\/del\/.*/, deleteTodo);
 app.get(/\/lists\/.*\.json/, getTodoItems);
-app.post(/\/lists\/.*\/addItem/, addTodoItem);
+app.post("/saveTodo", updateTodo);
 app.get(/\/lists\/.*/, getSpecificTodoPage);
 app.get(/\/lists/, getAllTodosPage);
 app.use(fileHandler);

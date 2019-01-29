@@ -1,7 +1,7 @@
 const loadTodoLists = function() {
   fetch("/todoLists")
     .then(res => res.json())
-    .then(lists => showLists(lists));
+    .then(todos => showTodos(todos));
 };
 
 const createElemets = function() {
@@ -17,7 +17,7 @@ const createElemets = function() {
   return { todoDiv, titleHeading, descriptionPara, editLink, delBtn };
 };
 
-const createTodoDiv = function(key, { title, description }) {
+const createTodoDiv = function({ id, title, description }) {
   const {
     todoDiv,
     titleHeading,
@@ -25,9 +25,9 @@ const createTodoDiv = function(key, { title, description }) {
     editLink,
     delBtn
   } = createElemets();
-  todoDiv.id = key;
-  editLink.href = `/lists/${key}`;
-  editLink.innerHTML = "<button >Edit</button>";
+  todoDiv.id = id;
+  editLink.href = `/lists/${id}`;
+  editLink.innerHTML = "<button>Edit</button>";
   delBtn.onclick = deleteTodo;
   titleHeading.innerText = title;
   descriptionPara.innerText = description;
@@ -36,11 +36,9 @@ const createTodoDiv = function(key, { title, description }) {
   return todoDiv;
 };
 
-const showLists = function(lists) {
+const showTodos = function(todos) {
   let mainDiv = document.getElementById("todoLists");
-  const todoDivs = Object.keys(lists).map(key =>
-    createTodoDiv(key, lists[key])
-  );
+  const todoDivs = todos.map(todo => createTodoDiv(todo));
   todoDivs.forEach(div => {
     mainDiv.appendChild(div);
   });

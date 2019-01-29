@@ -1,19 +1,31 @@
-const { getUniqueNum, convertToNum } = require("./utils");
+const decrementId = function(todo) {
+  todo.id--;
+};
 
 class Todos {
   constructor(todos) {
     this.todos = todos;
   }
 
-  addTodo(list) {
-    const listIds = convertToNum(Object.keys(this.todos));
-    let key = getUniqueNum(4, listIds);
-    this.todos[key] = list;
-    return key;
+  addTodo(todo) {
+    todo.id = this.todos.length + 1;
+    this.todos.push(todo);
+    return todo.id;
   }
 
-  getTodo(key) {
-    return this.todos[key];
+  updateTodo(todo) {
+    this.todos[todo.id - 1] = todo;
+  }
+
+  getTodo(id) {
+    return this.todos[id - 1];
+  }
+
+  removeTodo(id) {
+    let beforePart = this.todos.slice(0, id - 1);
+    let afterPart = this.todos.slice(id);
+    afterPart = afterPart.map(decrementId);
+    this.todos = beforePart.concat(afterPart);
   }
 
   get() {

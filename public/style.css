@@ -112,3 +112,7 @@ form {
   margin-right: 10px;
   width: 80px;
 }
+
+input[type="checkbox"] {
+  margin: 10px;
+}

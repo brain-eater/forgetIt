@@ -1,7 +1,6 @@
 const fs = require("fs");
 
-const getTodoKey = url => url.match(/\/lists\/(.*)\/addItem/)[1];
-const getListKey = url => url.match(/\/lists\/(.*)\.json/)[1];
+const getTodoKey = url => url.match(/\/lists\/(.*)\.json/)[1];
 
 const updateUserFile = function(userId, todos) {
   fs.writeFile(`./data/${userId}.json`, JSON.stringify(todos), err => {
@@ -10,19 +9,16 @@ const updateUserFile = function(userId, todos) {
 };
 
 const deleteTodo = function(req, res) {
-  const todoKey = req.url.match(/\/lists\/del\/(.*)/)[1];
+  const todoId = req.url.match(/\/lists\/del\/(.*)/)[1];
   let { id, todos } = req.currUser;
-  const currUserTodos = todos.get();
-  currUserTodos[todoKey] = undefined;
-  updateUserFile(id, currUserTodos);
+  todos.removeTodo(todoId);
+  updateUserFile(id, todos.get());
 };
 
-const addTodoItem = function(req, res, activeUsers) {
-  const todoKey = getTodoKey(req.url);
+const updateTodo = function(req, res) {
   const { id, todos } = req.currUser;
-  const todo = todos.getTodo(todoKey);
-  const item = req.body;
-  todo.items.push(item);
+  const todo = JSON.parse(req.body);
+  todos.updateTodo(todo);
   updateUserFile(id, todos.get());
   res.end();
 };
@@ -42,14 +38,14 @@ const getTodos = function(req, res) {
 };
 
 const getTodoItems = function(req, res) {
-  const todoKey = getListKey(req.url);
+  const todoId = getTodoKey(req.url);
   const { todos } = req.currUser;
-  const todo = todos.getTodo(todoKey);
+  const todo = todos.getTodo(todoId);
   res.sendJson(todo);
 };
 
 module.exports = {
-  addTodoItem,
+  updateTodo,
   createNewTodo,
   getTodoItems,
   getTodos,
