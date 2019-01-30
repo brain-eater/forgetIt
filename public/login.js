@@ -2,7 +2,7 @@ const postUserDetails = function() {
   const userName = document.getElementsByName("uname")[0].value;
   const password = document.getElementsByName("pwd")[0].value;
   const status = document.getElementById("status");
-  const msg = "Try again";
+  const msg = "Incorrect username or password.";
   const userDetails = { userName, password };
 
   fetch("/login", {

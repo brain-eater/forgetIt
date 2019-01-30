@@ -1,6 +1,7 @@
 const { getUniqueNum } = require("./utils");
 const Todos = require("./todoLists");
 const fs = require("fs");
+const { updateUserData } = require("./fileHandler");
 const { createLoginCookie } = require("./cookie");
 
 const updateActiveUsers = function(id, activeUsers) {
@@ -28,4 +29,18 @@ const loginUser = (userId, activeUsers, res) => {
   res.redirect("/todos");
 };
 
-module.exports = { loginUser, logoutUser };
+const createAccount = function(users, loginDetails) {
+  let probableId = users.addUser(loginDetails);
+  let msg = "";
+  if (isNaN(probableId)) {
+    msg = probableId;
+    return msg;
+  }
+  fs.writeFile(`./data/${probableId}.json`, "[]", err => {
+    console.log(err);
+  });
+  updateUserData(users.loginDetails);
+  return "success";
+};
+
+module.exports = { loginUser, logoutUser, createAccount };

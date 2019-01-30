@@ -1,11 +1,6 @@
 const Express = require("./express");
 const app = new Express();
-const {
-  fileHandler,
-  readPostedData,
-  loadUserData,
-  imageHandler
-} = require("./fileHandler");
+const { fileHandler, readPostedData, loadUserData } = require("./fileHandler");
 const {
   updateTodo,
   createNewTodo,
@@ -15,7 +10,7 @@ const {
 } = require("./todoHandlers");
 const Users = require("./users");
 const { cookieHandler } = require("./cookie");
-const { loginUser, logoutUser } = require("./authentication");
+const { loginUser, createAccount, logoutUser } = require("./authentication");
 const { TODO_PAGE_PATH, ALL_TODOS_PAGE_PATH } = require("./constants");
 
 let users; //global object
@@ -60,6 +55,11 @@ const isUserActive = function(req, res, next) {
   next();
 };
 
+const newAccountHandler = function(req, res) {
+  let responseMsg = createAccount(users, JSON.parse(req.body));
+  res.send(responseMsg);
+};
+
 // initialize
 const userData = loadUserData();
 users = new Users(userData);
@@ -68,14 +68,16 @@ const getAllTodosPage = (req, res, next) =>
   fileHandler(req, res, next, ALL_TODOS_PAGE_PATH);
 const getSpecificTodoPage = (req, res, next) =>
   fileHandler(req, res, next, TODO_PAGE_PATH);
-
 app.use(cookieHandler);
 app.use(readPostedData);
 app.use(logRequest);
 app.get("/", homepageHandler);
 app.get("/style.css", fileHandler);
 app.get("/login.js", fileHandler);
+app.get("/signup.html", fileHandler);
+app.get("/signup.js", fileHandler);
 app.post("/login", loginHandler);
+app.post("/newaccount", newAccountHandler);
 app.use(isUserActive);
 app.get("/logout", logoutHandler);
 app.post("/newTodo", createNewTodo);
@@ -85,7 +87,6 @@ app.get(/\/todos\/.*\.json/, getTodoItems);
 app.post("/saveTodo", updateTodo);
 app.get(/\/todos\/.*/, getSpecificTodoPage);
 app.get("/todos", getAllTodosPage);
-// app.get("/images/delete.png", imageHandler);
 app.use(fileHandler);
 
 module.exports = app.handleRequest.bind(app);

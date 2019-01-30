@@ -38,8 +38,17 @@ const loadUserData = function() {
   return JSON.parse(data);
 };
 
+const updateUserData = function(loginDetails) {
+  data = fs.writeFile(
+    USERS_LOGIN_DETAILS_PATH,
+    JSON.stringify(loginDetails),
+    () => {}
+  );
+};
+
 module.exports = {
   fileHandler,
   readPostedData,
-  loadUserData
+  loadUserData,
+  updateUserData
 };

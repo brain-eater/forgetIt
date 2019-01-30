@@ -1,9 +1,12 @@
 header {
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px black solid;
+  padding: 10px;
 }
 
-header > .logout {
-  margin-left: 80%;
+.logout {
+  margin-bottom: 0px;
 }
 
 .heading {
@@ -64,7 +67,7 @@ form {
   width: fit-content;
   padding: 30px;
   height: 270px;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
   margin: 40 auto;
   display: flex;
@@ -127,4 +130,59 @@ form {
 
 input[type="checkbox"] {
   margin: 10px;
+}
+
+.homepage {
+  display: flex;
+}
+
+.siteDetails {
+  width: 70%;
+}
+
+.login {
+  margin: 0px auto;
+}
+
+.login > h1 {
+  text-align: center;
+}
+
+.homePageForm {
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+  justify-content: center;
+  padding: 20px 50px;
+  border: 1px black solid;
+  margin: 20px 40px;
+  background-color: white;
+}
+
+.homePageForm > input {
+  margin: 10px;
+  font-size: 20px;
+}
+
+.homePageForm > p {
+  align-self: baseline;
+  margin: 0;
+}
+
+.success {
+  color: green;
+  background-color: rgb(194, 252, 194);
+}
+.error {
+  color: maroon;
+  background-color: #ffdce0;
+}
+
+.block {
+  margin-left: 40px;
+  text-align: center;
+  width: 350px;
+  border: 1px black solid;
+  border-radius: 5px;
+  padding: 20px 10px;
 }
