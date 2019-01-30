@@ -144,6 +144,17 @@ input[type="checkbox"] {
   margin: 0px auto;
 }
 
+.login {
+  height: fit-content;
+  width: fit-content;
+  border-radius: 5px;
+  margin-left: 40px;
+  padding: 20px 0px;
+  align-self: baseline;
+  margin: 30px;
+  border: 1px black solid;
+}
+
 .login > h1 {
   text-align: center;
 }
@@ -154,8 +165,7 @@ input[type="checkbox"] {
   width: fit-content;
   justify-content: center;
   padding: 20px 50px;
-  border: 1px black solid;
-  margin: 20px 40px;
+  border: 0px black solid;
   background-color: white;
 }
 
@@ -179,10 +189,9 @@ input[type="checkbox"] {
 }
 
 .block {
-  margin-left: 40px;
+  margin: 10px;
   text-align: center;
   width: 350px;
-  border: 1px black solid;
   border-radius: 5px;
   padding: 20px 10px;
 }
