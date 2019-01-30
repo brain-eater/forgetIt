@@ -4,6 +4,15 @@ const loadTodos = function() {
     .then(todos => showTodos(todos));
 };
 
+const loadUserName = function() {
+  fetch("/username")
+    .then(res => res.text())
+    .then(username => {
+      let usernameEle = document.getElementById("username");
+      usernameEle.innerText = username;
+    });
+};
+
 const createElemets = function() {
   let todoDiv = document.createElement("div");
   let titleHeading = document.createElement("h2");
@@ -61,6 +70,7 @@ const deleteTodo = function() {
 
 const intialize = function() {
   loadTodos();
+  loadUserName();
 };
 
 window.onload = intialize;

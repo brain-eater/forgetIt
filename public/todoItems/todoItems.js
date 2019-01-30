@@ -2,6 +2,7 @@ let todo;
 const REDO_UNC = "&#x21aa;";
 const TICK_UNC = "&#x2713;";
 const PENCIL_UNC = "&#x270E;";
+const TICK_CHAR_CODE = 10003;
 
 const getPendingDiv = document => document.getElementById("pending");
 const getCompletedDiv = document => document.getElementById("completed");
@@ -135,10 +136,10 @@ const disableSaveBtn = setSaveBtn.bind(null, false);
 
 const toggle = function() {
   let toggleBtn = event.target;
-  const itemId = toggleBtn.id - 1;
+  const itemId = toggleBtn.closest("div").id;
   todo.toggleStatus(itemId);
   let prevTextCode = toggleBtn.innerText.charCodeAt();
-  toggleBtn.innerHTML = prevTextCode == 10003 ? REDO_UNC : TICK_UNC;
+  toggleBtn.innerHTML = prevTextCode == TICK_CHAR_CODE ? REDO_UNC : TICK_UNC;
   showTodoItems(todo.items);
   enableSaveBtn();
 };
@@ -171,14 +172,19 @@ const updateItem = function(id) {
 
 const deleteItem = function() {
   const clickedBtn = event.target;
-  const todoDiv = clickedBtn.closest("div");
-  const itemId = todoDiv.id;
+  const itemId = clickedBtn.closest("div").id;
   todo.removeItem(itemId);
   showTodoItems(todo.items);
   enableSaveBtn();
 };
 
 const intialize = function() {
+  const todoItemTextBox = document.getElementsByName("todoItemText")[0];
+  console.log(todoItemTextBox);
+
+  todoItemTextBox.onkeydown = () => {
+    if (event.key == "Enter") addTodoItem();
+  };
   loadTodo();
 };
 

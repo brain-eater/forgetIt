@@ -4,12 +4,12 @@ const fs = require("fs");
 const { updateUserData } = require("./fileHandler");
 const { createLoginCookie } = require("./cookie");
 
-const updateActiveUsers = function(id, activeUsers) {
+const updateActiveUsers = function({ userId, userName }, activeUsers) {
   const existingAuthKeys = Object.keys(activeUsers);
   const auth_key = getUniqueNum(3, existingAuthKeys);
-  fs.readFile(`./data/${id}.json`, "utf8", (err, data) => {
+  fs.readFile(`./data/${userId}.json`, "utf8", (err, data) => {
     const todos = new Todos(JSON.parse(data));
-    let userDetails = { id, todos };
+    let userDetails = { id: userId, userName, todos };
     activeUsers[auth_key] = userDetails;
   });
 
@@ -22,11 +22,15 @@ const logoutUser = function(res) {
   res.redirect("/");
 };
 
-const loginUser = (userId, activeUsers, res) => {
-  const auth_key = updateActiveUsers(userId, activeUsers);
+const loginUser = (userInfo, activeUsers, res) => {
+  const auth_key = updateActiveUsers(userInfo, activeUsers);
   let cookie = createLoginCookie(auth_key);
   res.setHeader("Set-cookie", cookie);
   res.redirect("/todos");
+};
+
+const userNameHandler = function(req, res) {
+  res.send(req.currUser.userName);
 };
 
 const createAccount = function(users, loginDetails) {
@@ -43,4 +47,4 @@ const createAccount = function(users, loginDetails) {
   return "success";
 };
 
-module.exports = { loginUser, logoutUser, createAccount };
+module.exports = { userNameHandler, loginUser, logoutUser, createAccount };

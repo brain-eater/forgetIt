@@ -30,8 +30,9 @@ class Todo {
   }
 
   toggleStatus(itemId) {
-    let prevStatus = this.todo.items[itemId].done;
-    this.todo.items[itemId].done = !prevStatus;
+    let itemIndex = itemId - 1;
+    let prevStatus = this.todo.items[itemIndex].done;
+    this.todo.items[itemIndex].done = !prevStatus;
   }
 
   decrementId(todoItem) {

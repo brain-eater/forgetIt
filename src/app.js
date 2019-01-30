@@ -10,7 +10,12 @@ const {
 } = require("./todoHandlers");
 const Users = require("./users");
 const { cookieHandler } = require("./cookie");
-const { loginUser, createAccount, logoutUser } = require("./authentication");
+const {
+  userNameHandler,
+  loginUser,
+  createAccount,
+  logoutUser
+} = require("./authentication");
 const { TODO_PAGE_PATH, ALL_TODOS_PAGE_PATH } = require("./constants");
 
 let users; //global object
@@ -39,7 +44,8 @@ const loginHandler = (req, res) => {
   let user = JSON.parse(req.body);
   const userId = users.getUserId(user);
   if (userId) {
-    loginUser(userId, activeUsers, res);
+    const userName = users.getUserName(userId);
+    loginUser({ userId, userName }, activeUsers, res);
     return;
   }
   res.send("Try again");
@@ -79,6 +85,7 @@ app.get("/signup.js", fileHandler);
 app.post("/login", loginHandler);
 app.post("/newaccount", newAccountHandler);
 app.use(isUserActive);
+app.get("/username", userNameHandler);
 app.get("/logout", logoutHandler);
 app.post("/newTodo", createNewTodo);
 app.get("/todos.json", getTodos);
