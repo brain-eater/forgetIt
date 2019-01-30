@@ -55,7 +55,7 @@ const deleteTodo = function() {
   const todoDiv = clickedBtn.closest("div");
   const todoId = todoDiv.id;
   fetch(`/todos/del/${todoId}`).then(() => {
-    loadTodos();
+    setTimeout(() => loadTodos(), 400);
   });
 };
 

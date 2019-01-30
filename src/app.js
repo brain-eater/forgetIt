@@ -1,6 +1,11 @@
 const Express = require("./express");
 const app = new Express();
-const { fileHandler, readPostedData, loadUserData } = require("./fileHandler");
+const {
+  fileHandler,
+  readPostedData,
+  loadUserData,
+  imageHandler
+} = require("./fileHandler");
 const {
   updateTodo,
   createNewTodo,
@@ -80,6 +85,7 @@ app.get(/\/todos\/.*\.json/, getTodoItems);
 app.post("/saveTodo", updateTodo);
 app.get(/\/todos\/.*/, getSpecificTodoPage);
 app.get("/todos", getAllTodosPage);
+// app.get("/images/delete.png", imageHandler);
 app.use(fileHandler);
 
 module.exports = app.handleRequest.bind(app);

@@ -1,6 +1,7 @@
 let todo;
 const REFRESH_UNICODE = "&#x21bb;";
 const TICK_UNICODE = "&#x2713;";
+const PENCIL_UNICODE = "&#x270E;";
 
 const displayTodo = function() {
   let titleEle = document.getElementById("title");
@@ -34,24 +35,38 @@ const loadTodo = function() {
     });
 };
 
+const createBtn = function(id, classList, onclick = "", innerHTML = "") {
+  let buttonEle = document.createElement("button");
+  buttonEle.onclick = onclick;
+  classList.forEach(className => buttonEle.classList.add(className));
+  buttonEle.innerHTML = innerHTML;
+  buttonEle.id = id;
+  return buttonEle;
+};
+
 const generateTodoItemDiv = function(todoItem) {
+  let { id } = todoItem;
   let todoItemDiv = document.createElement("div");
+  todoItemDiv.id = id;
   let todoItemText = document.createElement("p");
   todoItemText.innerText = todoItem.text;
-  let doneBtn = document.createElement("button");
   let text = todoItem.done ? REFRESH_UNICODE : TICK_UNICODE;
-  doneBtn.onclick = toggle;
-  doneBtn.className = "roundBtn";
-  doneBtn.innerHTML = text;
-  doneBtn.id = todoItem.id;
-  todoItemDiv.appendChild(todoItemText);
-  todoItemDiv.appendChild(doneBtn);
+  let doneBtn = createBtn(id, ["roundBtn", "doneBtn"], toggle, text);
+  let delBtn = createBtn(id, ["delBtn", "roundBtn"], deleteItem);
+  let editBtn = createBtn(
+    id,
+    ["editBtn", "roundBtn"],
+    editItem,
+    PENCIL_UNICODE
+  );
+  let children = [todoItemText, doneBtn, delBtn, editBtn];
+  children.forEach(child => todoItemDiv.appendChild(child));
   return todoItemDiv;
 };
 
 const showTodoItems = function(todoItems) {
   let todoItemsDiv = document.getElementById("todoItems");
-  todoItemsDiv.className = "flexContainer";
+  todoItemsDiv.innerHTML = "";
   let todoItemDivs = todoItems.map(generateTodoItemDiv);
   todoItemDivs.forEach(div => {
     todoItemsDiv.appendChild(div);
@@ -88,6 +103,56 @@ const toggle = function() {
   todo.items[itemId].done = !prevStatus;
   let prevTextCode = toggleBtn.innerText.charCodeAt();
   toggleBtn.innerHTML = prevTextCode == 10003 ? REFRESH_UNICODE : TICK_UNICODE;
+  enableSaveBtn();
+};
+
+const removeItem = id => {
+  let beforePart = todo.items.slice(0, id - 1);
+  let afterPart = todo.items.slice(id);
+  afterPart = afterPart.map(decrementId);
+  todo.items = beforePart.concat(afterPart);
+};
+
+const decrementId = function(todo) {
+  todo.id--;
+  return todo;
+};
+
+const editItem = function() {
+  const clickedBtn = event.target;
+  const todoDiv = clickedBtn.closest("div");
+  const itemId = todoDiv.id;
+  const itemParaTag = todoDiv.children[0];
+  const textBox = document.createElement("input");
+  textBox.className = "edit";
+  textBox.setAttribute("type", "text");
+  textBox.setAttribute("value", itemParaTag.innerText);
+  textBox.onkeydown = updateItem.bind(null, itemId);
+  todoDiv.replaceChild(textBox, itemParaTag);
+};
+
+const updateItem = function(id) {
+  let key = event.key;
+  let textBox = event.target;
+  if (key == "Enter") {
+    let editedItem = textBox.value;
+    todo.items[id - 1].text = editedItem;
+    const todoDiv = textBox.closest("div");
+    const itemPara = document.createElement("p");
+    itemPara.innerText = editedItem;
+    todoDiv.replaceChild(itemPara, textBox);
+    enableSaveBtn();
+  }
+};
+
+const deleteItem = function() {
+  const clickedBtn = event.target;
+  const todoDiv = clickedBtn.closest("div");
+  const itemId = todoDiv.id;
+  const parentDiv = todoDiv.parentNode;
+  setTimeout(() => parentDiv.removeChild(todoDiv), 300);
+  removeItem(itemId);
+  showTodoItems(todo.items);
   enableSaveBtn();
 };
 
