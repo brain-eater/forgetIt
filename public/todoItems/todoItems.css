@@ -63,3 +63,11 @@
 .flexContainer > div > input[type="text"] {
   width: 80%;
 }
+
+#completed > div > p {
+  text-decoration: line-through;
+}
+
+#completed > div > .editBtn {
+  visibility: hidden;
+}

@@ -11,6 +11,15 @@ const displayTodo = function() {
   showTodoItems(todo.items);
 };
 
+const prepend = function(todoItemDiv, prevTodoItemsDiv) {
+  let todoItemsDiv = document.createElement("div");
+  todoItemsDiv.appendChild(todoItemDiv);
+  for (let child of prevTodoItemsDiv.children) {
+    todoItemsDiv.appendChild(child);
+  }
+  return todoItemsDiv;
+};
+
 const addTodoItem = function() {
   const id = todo.items.length + 1;
   const todoItemTextBox = document.getElementsByName("todoItem")[0];
@@ -18,9 +27,10 @@ const addTodoItem = function() {
   todoItemTextBox.value = "";
   let todoItem = { id, text, done: false };
   todo.items.push(todoItem);
-  let todoItemDiv = generateTodoItemDiv(todoItem);
-  let todoItemsDiv = document.getElementById("todoItems");
-  todoItemsDiv.appendChild(todoItemDiv);
+  let { todoItemDiv } = generateTodoItemDiv(todoItem);
+  let pendingDiv = document.getElementById("pending");
+  pendingDiv = prepend(todoItemDiv, pendingDiv);
+  showTodoItems(todo.items);
   enableSaveBtn();
 };
 
@@ -51,6 +61,7 @@ const generateTodoItemDiv = function(todoItem) {
   let todoItemText = document.createElement("p");
   todoItemText.innerText = todoItem.text;
   let text = todoItem.done ? REFRESH_UNICODE : TICK_UNICODE;
+  let parentDivId = todoItem.done ? "completed" : "pending";
   let doneBtn = createBtn(id, ["roundBtn", "doneBtn"], toggle, text);
   let delBtn = createBtn(id, ["delBtn", "roundBtn"], deleteItem);
   let editBtn = createBtn(
@@ -61,16 +72,24 @@ const generateTodoItemDiv = function(todoItem) {
   );
   let children = [todoItemText, doneBtn, delBtn, editBtn];
   children.forEach(child => todoItemDiv.appendChild(child));
-  return todoItemDiv;
+  console.log(todoItemDiv);
+
+  return { todoItemDiv, parentDivId };
 };
 
 const showTodoItems = function(todoItems) {
-  let todoItemsDiv = document.getElementById("todoItems");
-  todoItemsDiv.innerHTML = "";
-  let todoItemDivs = todoItems.map(generateTodoItemDiv);
-  todoItemDivs.forEach(div => {
-    todoItemsDiv.appendChild(div);
-  });
+  let pendingDiv = document.getElementById("pending");
+  let completedDiv = document.getElementById("completed");
+  pendingDiv.innerHTML = "";
+  completedDiv.innerHTML = "";
+  let parentDivs = {
+    pending: pendingDiv,
+    completed: completedDiv
+  };
+  let todoItemDivs = todoItems.map(generateTodoItemDiv).reverse();
+  todoItemDivs.forEach(({ todoItemDiv, parentDivId }) =>
+    parentDivs[parentDivId].appendChild(todoItemDiv)
+  );
 };
 
 const save = function() {
@@ -103,6 +122,7 @@ const toggle = function() {
   todo.items[itemId].done = !prevStatus;
   let prevTextCode = toggleBtn.innerText.charCodeAt();
   toggleBtn.innerHTML = prevTextCode == 10003 ? REFRESH_UNICODE : TICK_UNICODE;
+  showTodoItems(todo.items);
   enableSaveBtn();
 };
 
