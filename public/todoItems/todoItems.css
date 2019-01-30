@@ -71,3 +71,8 @@
 #completed > div > .editBtn {
   visibility: hidden;
 }
+
+#completed > div > .doneBtn {
+  transform: rotate(180deg);
+  width: 25.5px;
+}
