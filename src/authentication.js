@@ -1,18 +1,16 @@
 const { getUniqueNum } = require("./utils");
+
 const Todos = require("./todoLists");
-const fs = require("fs");
 const { updateUserData } = require("./fileHandler");
 const { createLoginCookie } = require("./cookie");
 
-const updateActiveUsers = function({ userId, userName }, activeUsers) {
+const updateActiveUsers = function(userDetails, activeUsers, userTodos) {
+  let { userId, userName } = userDetails;
   const existingAuthKeys = Object.keys(activeUsers);
   const auth_key = getUniqueNum(3, existingAuthKeys);
-  fs.readFile(`./data/${userId}.json`, "utf8", (err, data) => {
-    const todos = new Todos(JSON.parse(data));
-    let userDetails = { id: userId, userName, todos };
-    activeUsers[auth_key] = userDetails;
-  });
-
+  let todos = userTodos[userId];
+  let userData = { id: userId, userName, todos };
+  activeUsers[auth_key] = userData;
   return auth_key;
 };
 
@@ -22,8 +20,8 @@ const logoutUser = function(res) {
   res.redirect("/");
 };
 
-const loginUser = (userInfo, activeUsers, res) => {
-  const auth_key = updateActiveUsers(userInfo, activeUsers);
+const loginUser = (userInfo, activeUsers, userTodos, res) => {
+  const auth_key = updateActiveUsers(userInfo, activeUsers, userTodos);
   let cookie = createLoginCookie(auth_key);
   res.setHeader("Set-cookie", cookie);
   res.redirect("/todos");
@@ -33,18 +31,14 @@ const userNameHandler = function(req, res) {
   res.send(req.currUser.userName);
 };
 
-const createAccount = function(users, loginDetails) {
-  let probableId = users.addUser(loginDetails);
-  let msg = "";
-  if (isNaN(probableId)) {
-    msg = probableId;
+const createAccount = function(users, loginDetails, userTodos) {
+  let { id, msg } = users.addUser(loginDetails);
+  if (msg != "success") {
     return msg;
   }
-  fs.writeFile(`./data/${probableId}.json`, "[]", err => {
-    console.log(err);
-  });
+  userTodos[id] = new Todos([]);
   updateUserData(users.loginDetails);
-  return "success";
+  return msg;
 };
 
 module.exports = { userNameHandler, loginUser, logoutUser, createAccount };

@@ -48,13 +48,13 @@ class Users {
   }
 
   addUser(loginDetails) {
-    const validationReport = this.validate(loginDetails);
-    if (validationReport != "valid") {
-      return validationReport;
+    const msg = this.validate(loginDetails);
+    if (msg != "valid") {
+      return { msg, id: null };
     }
-    let uniqueId = getUniqueNum(3, Object.keys(this.list));
-    this.list[uniqueId] = loginDetails;
-    return uniqueId;
+    let id = getUniqueNum(3, Object.keys(this.list));
+    this.list[id] = loginDetails;
+    return { id, msg: "success" };
   }
 }
 

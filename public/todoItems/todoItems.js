@@ -180,8 +180,6 @@ const deleteItem = function() {
 
 const intialize = function() {
   const todoItemTextBox = document.getElementsByName("todoItemText")[0];
-  console.log(todoItemTextBox);
-
   todoItemTextBox.onkeydown = () => {
     if (event.key == "Enter") addTodoItem();
   };

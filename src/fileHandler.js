@@ -1,4 +1,10 @@
-const { ROOT, HOME_PAGE, USERS_LOGIN_DETAILS_PATH } = require("./constants");
+const {
+  ROOT,
+  HOME_PAGE,
+  USERS_LOGIN_DETAILS_PATH,
+  USERS_TODO_DATA_PATH
+} = require("./constants");
+const Todos = require("./todoLists");
 const fs = require("fs");
 
 const fileHandler = function(req, res, next, requestedUrl) {
@@ -27,15 +33,36 @@ const readPostedData = function(req, res, next) {
   });
 };
 
-const loadUserData = function() {
+const loadUserLoginData = function() {
   let data;
   try {
     data = fs.readFileSync(USERS_LOGIN_DETAILS_PATH, "utf-8");
   } catch (err) {
     data = "[]";
-    fs.writeFileSync(userDataFilePath, data);
+    fs.writeFileSync(USERS_LOGIN_DETAILS_PATH, data);
   }
   return JSON.parse(data);
+};
+
+const loadUserData = function() {
+  let data;
+  try {
+    data = fs.readFileSync(USERS_TODO_DATA_PATH, "utf-8");
+  } catch (err) {
+    data = "{}";
+    fs.writeFileSync(USERS_TODO_DATA_PATH, data);
+  }
+  return JSON.parse(data);
+};
+
+const getUserTodos = function() {
+  let userDataObj = loadUserData();
+  let userTodos = {};
+  for (let userId in userDataObj) {
+    let todos = new Todos(userDataObj[userId]);
+    userTodos[userId] = todos;
+  }
+  return userTodos;
 };
 
 const updateUserData = function(loginDetails) {
@@ -49,6 +76,7 @@ const updateUserData = function(loginDetails) {
 module.exports = {
   fileHandler,
   readPostedData,
-  loadUserData,
+  getUserTodos,
+  loadUserLoginData,
   updateUserData
 };

@@ -167,7 +167,8 @@ input[type="checkbox"] {
   height: fit-content;
   width: fit-content;
   justify-content: center;
-  padding: 20px 50px;
+  padding: 10px 50px;
+  margin: 0px auto;
   border: 0px black solid;
   background-color: white;
 }
@@ -197,4 +198,8 @@ input[type="checkbox"] {
   width: 350px;
   border-radius: 5px;
   padding: 20px 10px;
+}
+
+.logo {
+  height: 55px;
 }

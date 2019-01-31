@@ -1,18 +1,9 @@
-const fs = require("fs");
-
 const getTodoKey = url => url.match(/\/todos\/(.*)\.json/)[1];
-
-const updateUserFile = function(userId, todos) {
-  fs.writeFile(`./data/${userId}.json`, JSON.stringify(todos), err => {
-    if (err) console.log(err);
-  });
-};
 
 const deleteTodo = function(req, res) {
   const todoId = req.url.match(/\/todos\/del\/(.*)/)[1];
   let { id, todos } = req.currUser;
   todos.removeTodo(todoId);
-  updateUserFile(id, todos.get());
   res.end();
 };
 
@@ -20,7 +11,6 @@ const updateTodo = function(req, res) {
   const { id, todos } = req.currUser;
   const todo = JSON.parse(req.body);
   todos.updateTodo(todo);
-  updateUserFile(id, todos.get());
   res.end();
 };
 
@@ -29,7 +19,6 @@ const createNewTodo = function(req, res) {
   todo.items = [];
   let { id, todos } = req.currUser;
   const todoNo = todos.addTodo(todo);
-  updateUserFile(id, todos.get());
   res.send(todoNo.toString());
 };
 

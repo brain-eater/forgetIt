@@ -4,7 +4,6 @@
   "description": "forget it",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.4"
   },
   "devDependencies": {
     "chai": "^4.2.0",
