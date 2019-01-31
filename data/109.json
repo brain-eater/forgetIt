@@ -1,0 +1,30 @@
+[
+  {
+    "title": "To-do App",
+    "description": "Have to create a todo web app for assignment this week",
+    "items": [],
+    "id": 1
+  },
+  {
+    "title": "Plan trip to Nandi hillls",
+    "description": "This sunday we all will go to Nandi hills.",
+    "items": [
+      { "id": 1, "text": "Book a bus", "done": true },
+      { "id": 2, "text": "pack the bags", "done": false },
+      { "id": 3, "text": "Wake up early", "done": false },
+      { "id": 4, "text": "Invite friends", "done": false }
+    ],
+    "id": 2
+  },
+  {
+    "title": "Plan trip to Goa ",
+    "description": "This sunday we all will go to Nandi hills.",
+    "items": [
+      { "id": 1, "text": "Book a bus", "done": true },
+      { "id": 2, "text": "pack the bags", "done": false },
+      { "id": 3, "text": "Wake up early", "done": false },
+      { "id": 4, "text": "Invite friends", "done": false }
+    ],
+    "id": 3
+  }
+]

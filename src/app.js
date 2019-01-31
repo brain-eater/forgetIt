@@ -82,6 +82,7 @@ app.get("/style.css", fileHandler);
 app.get("/login.js", fileHandler);
 app.get("/signup.html", fileHandler);
 app.get("/signup.js", fileHandler);
+app.get("/clipboard.png", fileHandler);
 app.post("/login", loginHandler);
 app.post("/newaccount", newAccountHandler);
 app.use(isUserActive);
