@@ -10,6 +10,8 @@ const fs = require("fs");
 const fileHandler = function(req, res, next, requestedUrl) {
   const url = requestedUrl || req.url;
   const filePath = getFilePath(url);
+  console.log(filePath);
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.send("file not found", 404);

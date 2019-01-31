@@ -34,7 +34,7 @@
 .delBtn {
   width: 25.5px;
   height: 25.5px;
-  background-image: url("/todoItems/delete.png");
+  background-image: url("images/delete.png");
   background-size: 70%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -45,7 +45,7 @@
 }
 
 .delBtn:hover {
-  background-image: url("/todoItems/white_delete.png");
+  background-image: url("images/white_delete.png");
 }
 
 .flexContainer > div > p {

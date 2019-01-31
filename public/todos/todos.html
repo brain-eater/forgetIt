@@ -1,13 +1,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css" />
-    <script src="/allTodos/todos.js"></script>
+    <script src="/todos/todos.js"></script>
     <style>
       .userOptions {
         display: flex;
       }
       .userOptions > * {
-        margin: 0px 20px;
+        margin: 3px 10px;
       }
     </style>
   </head>
@@ -15,13 +15,19 @@
     <header>
       <a href="/"><img class="logo" src="/logo.png" alt=""/></a>
       <div class="userOptions">
+        <img
+          style="margin:0px;width: 35px;height: 35px;"
+          src="/user_icon.png"
+          alt=""
+        />
+
         <h2 id="username"></h2>
         <a class="logout" href="/logout"><button>Logout</button></a>
       </div>
     </header>
     <main>
       <div class="addTodoList">
-        <a href="/newTodo/addTodo.html"> <button>Add Todo +</button> </a>
+        <a href="/todos/addtodo.html"> <button>Add Todo +</button> </a>
       </div>
       <div id="allTodos" class="flexContainer"></div>
     </main>
