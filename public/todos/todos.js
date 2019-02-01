@@ -18,6 +18,7 @@ const createElemets = function() {
   let titleHeading = document.createElement("h2");
   titleHeading.className = "heading";
   let descriptionPara = document.createElement("p");
+  descriptionPara.className = "description";
   let editLink = document.createElement("a");
   editLink.id = "edit";
   let delBtn = document.createElement("button");

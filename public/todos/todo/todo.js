@@ -19,7 +19,7 @@ const loadTodo = function() {
 
 const displayTodo = function() {
   let titleEle = document.getElementById("title");
-  let descriptionEle = document.getElementById("listDescription");
+  let descriptionEle = document.getElementById("todoDescription");
   titleEle.innerText = todo.title;
   descriptionEle.innerText = todo.description;
   showTodoItems(todo.items);
