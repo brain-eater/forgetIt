@@ -21,6 +21,8 @@ const logoutUser = function(res) {
 };
 
 const loginUser = (userInfo, activeUsers, userTodos, res) => {
+  console.log(userInfo);
+
   const auth_key = updateActiveUsers(userInfo, activeUsers, userTodos);
   let cookie = createLoginCookie(auth_key);
   res.setHeader("Set-cookie", cookie);
@@ -34,11 +36,11 @@ const userNameHandler = function(req, res) {
 const createAccount = function(users, loginDetails, userTodos) {
   let { id, msg } = users.addUser(loginDetails);
   if (msg != "success") {
-    return msg;
+    return { msg, userId: null };
   }
   userTodos[id] = new Todos([]);
   updateUserData(users.loginDetails);
-  return msg;
+  return { msg, userId: id };
 };
 
 module.exports = { userNameHandler, loginUser, logoutUser, createAccount };

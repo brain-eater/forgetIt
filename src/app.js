@@ -79,9 +79,15 @@ const isUserActive = function(req, res, next) {
 
 const newAccountHandler = function(req, res) {
   let newUser = JSON.parse(req.body);
-  let responseMsg = createAccount(users, newUser, userTodos);
+  let { msg, userId } = createAccount(users, newUser, userTodos);
   updateUsersTodoFile(userTodos);
-  res.send(responseMsg);
+  if (msg === "success") {
+    let { userName } = newUser;
+    let userInfo = { userId, userName };
+    loginUser(userInfo, activeUsers, userTodos, res);
+    return;
+  }
+  res.send(msg);
 };
 
 const newTodoHandler = function(req, res) {
