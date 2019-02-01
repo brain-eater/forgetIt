@@ -1,8 +1,8 @@
-const { getUniqueNum } = require("./utils");
+const { getUniqueNum } = require("./utilities/utils");
 
 const Todos = require("./todoLists");
 const { updateUserData } = require("./fileHandler");
-const { createLoginCookie } = require("./cookie");
+const { createLoginCookie } = require("./utilities/cookie");
 
 const updateActiveUsers = function(userDetails, activeUsers, userTodos) {
   let { userId, userName } = userDetails;

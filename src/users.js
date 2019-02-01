@@ -1,4 +1,4 @@
-const { getUniqueNum } = require("./utils");
+const { getUniqueNum } = require("./utilities/utils");
 
 const isSameUserName = (userName1, userName2) => userName1 == userName2;
 const isEmpty = text => text === "";

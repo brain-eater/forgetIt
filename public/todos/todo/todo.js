@@ -155,6 +155,16 @@ const editItem = function() {
   textBox.setAttribute("value", itemParaTag.innerText);
   textBox.onkeydown = updateItem.bind(null, itemId);
   todoDiv.replaceChild(textBox, itemParaTag);
+  textBox.focus();
+};
+
+const loadUserName = function() {
+  fetch("/username")
+    .then(res => res.text())
+    .then(username => {
+      let usernameEle = document.getElementById("username");
+      usernameEle.innerText = username;
+    });
 };
 
 const updateItem = function(id) {
@@ -184,6 +194,7 @@ const intialize = function() {
     if (event.key == "Enter") addTodoItem();
   };
   loadTodo();
+  loadUserName();
 };
 
 window.onload = intialize;

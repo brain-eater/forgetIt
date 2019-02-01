@@ -15,7 +15,7 @@ const {
   deleteTodo
 } = require("./todoHandlers");
 const Users = require("./users");
-const { cookieHandler } = require("./cookie");
+const { cookieHandler } = require("./utilities/cookie");
 const {
   userNameHandler,
   loginUser,
@@ -117,6 +117,7 @@ app.get("/authentication/login.js", fileHandler);
 app.get("/authentication/signup.html", fileHandler);
 app.get("/authentication/signup.js", fileHandler);
 app.get("/logo.png", fileHandler);
+app.get("/clip_board.png", fileHandler);
 app.post("/login", loginHandler);
 app.post("/newaccount", newAccountHandler);
 app.use(isUserActive);
