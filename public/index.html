@@ -25,17 +25,22 @@
       <div class="login">
         <h1>Sign In</h1>
         <p id="status" class="block error" hidden></p>
-        <div class="homePageForm"></div>
-        <form class="homePageForm">
-          <p><strong>Username</strong></p>
-          <input type="text" name="uname" placeholder="&#x1f464;  Username" />
-          <p><strong>Password</strong></p>
-          <input type="password" name="pwd" placeholder="&#x1f512;  Password" />
-          <input type="button" onclick="postUserDetails()" value="Sign In" />
-        </form>
-        <div class="block">
-          New to ForgetIt ?
-          <a href="/authentication/signup.html">Create new account. </a>
+        <div class="form">
+          <div class="form">
+            <p><strong>Username</strong></p>
+            <input type="text" name="uname" placeholder="&#x1f464;  Username" />
+            <p><strong>Password</strong></p>
+            <input
+              type="password"
+              name="pwd"
+              placeholder="&#x1f512;  Password"
+            />
+            <button onclick="postUserDetails()">Sign In</button>
+          </div>
+          <div class="block">
+            New to ForgetIt ?
+            <a href="/authentication/signup.html">Create new account. </a>
+          </div>
         </div>
       </div>
     </main>

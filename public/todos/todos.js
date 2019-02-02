@@ -23,7 +23,7 @@ const createElemets = function() {
   editLink.id = "edit";
   let delBtn = document.createElement("button");
   delBtn.innerHTML = "&#x2716;";
-  delBtn.className = "roundBtn";
+  delBtn.classList.add("roundBtn", "close");
   delBtn.id = "del";
   return { todoDiv, titleHeading, descriptionPara, editLink, delBtn };
 };
@@ -67,6 +67,36 @@ const deleteTodo = function() {
   fetch(`/todos/del/${todoId}`).then(() => {
     setTimeout(() => loadTodos(), 400);
   });
+};
+
+const getValue = function(document, name) {
+  return document.getElementsByName(name)[0].value;
+};
+
+const postListDetails = function() {
+  const title = getValue(document, "title");
+  const description = getValue(document, "description");
+  const listDetails = { title, description };
+  fetch("/newTodo", {
+    method: "POST",
+    body: JSON.stringify(listDetails)
+  }).then(res => {
+    let overlay = document.getElementById("overlay1");
+    overlay.classList.remove("show");
+    loadTodos();
+  });
+};
+
+const closeOverlay = function() {
+  let overlay = document.getElementById("overlay1");
+  overlay.classList.remove("show");
+};
+
+const showAddListPopup = function() {
+  let overlay = document.getElementById("overlay1");
+  let titleTextBox = document.getElementsByName("title")[0];
+  overlay.classList.add("show");
+  titleTextBox.focus();
 };
 
 const intialize = function() {

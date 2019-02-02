@@ -24,23 +24,29 @@
 
       <div class="login">
         <h1>Create an Account</h1>
-        <p id="status" class="block error" hidden></p>
-        <form class="homePageForm">
-          <p><strong>Username</strong></p>
-          <input type="text" name="uname" placeholder="&#x1f464;  Username" />
-          <p><strong>Password</strong></p>
-          <input type="password" name="pwd" placeholder="&#x1f512;  Password" />
-          <p><strong>Confirm Password</strong></p>
-          <input
-            type="password"
-            name="pwd2"
-            placeholder="&#x1f512;  Confirm Password"
-          />
-          <input type="button" onclick="createAccount()" value="Sign Up" />
-          <div>
+        <div class="form">
+          <p id="status" class="block error" hidden></p>
+          <div class="form">
+            <p><strong>Username</strong></p>
+            <input type="text" name="uname" placeholder="&#x1f464;  Username" />
+            <p><strong>Password</strong></p>
+            <input
+              type="password"
+              name="pwd"
+              placeholder="&#x1f512;  Password"
+            />
+            <p><strong>Confirm Password</strong></p>
+            <input
+              type="password"
+              name="pwd2"
+              placeholder="&#x1f512;  Confirm Password"
+            />
+            <button onclick="createAccount()">Sign Up</button>
+          </div>
+          <div class="block">
             <p>Already a user? <a href="/">login</a></p>
           </div>
-        </form>
+        </div>
       </div>
     </main>
   </body>
