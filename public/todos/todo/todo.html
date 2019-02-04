@@ -9,9 +9,10 @@
     <header>
       <a href="/"><img class="logo" src="/logo.png" alt=""/></a>
       <div class="userOptions">
-        <img src="/user_icon.png" alt="" />
-
-        <h2 id="username"></h2>
+        <div class="username">
+          <img src="/user_icon.png" alt="" />
+          <h2 id="username"></h2>
+        </div>
         <a class="logout" href="/logout"><button>Logout</button></a>
       </div>
     </header>
@@ -36,9 +37,9 @@
           <h2><u>Todo Items :</u></h2>
           <button id="saveBtn" onclick="save()" disabled>Save Changes</button>
         </div>
-        <h3>Pending</h3>
-        <div id="pending" class="flexContainer"></div>
-        <h3>Completed</h3>
+        <h3 id="pendingHeading" hidden>Pending</h3>
+        <div id="pending" class="flexContainer" hidden></div>
+        <h3 id="completedHeading" hidden>Completed</h3>
         <div id="completed" class="flexContainer"></div>
       </div>
     </main>

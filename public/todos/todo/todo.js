@@ -35,6 +35,9 @@ const getParentDivs = function(document) {
 };
 
 const addItemToDiv = (parentDivs, { todoItemDiv, parentDivId }) => {
+  let headingId = parentDivId + "Heading";
+  let heading = document.getElementById(headingId);
+  heading.hidden = false;
   parentDivs[parentDivId].appendChild(todoItemDiv);
 };
 
