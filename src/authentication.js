@@ -21,8 +21,6 @@ const logoutUser = function(res) {
 };
 
 const loginUser = (userInfo, activeUsers, userTodos, res) => {
-  console.log(userInfo);
-
   const auth_key = updateActiveUsers(userInfo, activeUsers, userTodos);
   let cookie = createLoginCookie(auth_key);
   res.setHeader("Set-cookie", cookie);

@@ -8,11 +8,24 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "nodemon server.js || node server.js "
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brain-eater/forgetIt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brain-eater/forgetIt/issues"
+  },
+  "homepage": "https://github.com/brain-eater/forgetIt#readme"
 }
