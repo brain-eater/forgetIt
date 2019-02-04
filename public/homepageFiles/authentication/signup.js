@@ -10,6 +10,7 @@ const createAccount = function() {
   const confirmedPwd = getValue("pwd2");
   if (password === confirmedPwd) {
     createAccountReq({ userName, password });
+    return;
   }
   showStatus(MISMATCH_PWD_MSG);
 };

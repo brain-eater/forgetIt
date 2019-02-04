@@ -24,14 +24,15 @@ const createNewTodo = function(req, res) {
 
 const getTodos = function(req, res) {
   const { todos } = req.currUser;
-  res.sendJson(todos.get());
+
+  res.json(todos.get());
 };
 
 const getTodoItems = function(req, res) {
   const todoId = getTodoKey(req.url);
   const { todos } = req.currUser;
   const todo = todos.getTodo(todoId);
-  res.sendJson(todo);
+  res.json(todo);
 };
 
 module.exports = {

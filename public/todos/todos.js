@@ -69,13 +69,16 @@ const deleteTodo = function() {
   });
 };
 
-const getValue = function(document, name) {
-  return document.getElementsByName(name)[0].value;
+const clear = function(document, name) {
+  let element = document.getElementsByName(name)[0];
+  let value = element.value;
+  element.value = "";
+  return value;
 };
 
 const postListDetails = function() {
-  const title = getValue(document, "title");
-  const description = getValue(document, "description");
+  const title = clear(document, "title");
+  const description = clear(document, "description");
   const listDetails = { title, description };
   fetch("/newTodo", {
     method: "POST",

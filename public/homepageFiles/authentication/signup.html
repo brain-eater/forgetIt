@@ -1,7 +1,8 @@
 <html>
   <head>
-    <link rel="stylesheet" href="style.css" />
-    <script src="/authentication/login.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png" />
+    <script src="/authentication/signup.js"></script>
     <link
       href="https://fonts.googleapis.com/css?family=KoHo:500i"
       rel="stylesheet"
@@ -19,13 +20,15 @@
                 what to do? 
            Let's make a Todo for It.
         </pre>
-        <img id="todoimg" src="clip_board.png" />
+        <img id="todoimg" src="/clip_board.png" />
       </div>
 
       <div class="login">
-        <h1>Sign In</h1>
-        <p id="status" class="block error" hidden></p>
+        <h1>Create an Account</h1>
         <div class="form">
+          <div>
+            <p id="status" class="block error" hidden></p>
+          </div>
           <div class="form">
             <p><strong>Username</strong></p>
             <input type="text" name="uname" placeholder="&#x1f464;  Username" />
@@ -35,11 +38,16 @@
               name="pwd"
               placeholder="&#x1f512;  Password"
             />
-            <button onclick="postUserDetails()">Sign In</button>
+            <p><strong>Confirm Password</strong></p>
+            <input
+              type="password"
+              name="pwd2"
+              placeholder="&#x1f512;  Confirm Password"
+            />
+            <button onclick="createAccount()">Sign Up</button>
           </div>
           <div class="block">
-            New to ForgetIt ?
-            <a href="/authentication/signup.html">Create new account. </a>
+            <p>Already a user? <a href="/">login</a></p>
           </div>
         </div>
       </div>

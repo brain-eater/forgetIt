@@ -1,8 +1,8 @@
-const Express = require("./express");
-const app = new Express();
+const express = require("express");
+const path = require("path");
+const app = express();
 const fs = require("fs");
 const {
-  fileHandler,
   readPostedData,
   loadUserLoginData,
   getUserTodos
@@ -22,7 +22,12 @@ const {
   createAccount,
   logoutUser
 } = require("./authentication");
-const { TODO_PAGE_PATH, ALL_TODOS_PAGE_PATH } = require("./constants");
+const {
+  ROOT,
+  HOME_PAGE_FILES,
+  TODO_PAGE_PATH,
+  ALL_TODOS_PAGE_PATH
+} = require("./constants");
 
 let users, userTodos; //global object
 let activeUsers = {}; //global object
@@ -42,13 +47,13 @@ const logRequest = function(req, res, next) {
   next();
 };
 
-const homepageHandler = function(req, res) {
+const homepageHandler = function(req, res, next) {
   const { auth_key } = req.cookies;
   if (activeUsers[auth_key]) {
     res.redirect("/todos");
     return;
   }
-  fileHandler(req, res);
+  next();
 };
 
 const logoutHandler = (req, res) => {
@@ -109,21 +114,18 @@ const userLoginData = loadUserLoginData();
 users = new Users(userLoginData);
 userTodos = getUserTodos();
 
-const getAllTodosPage = (req, res, next) =>
-  fileHandler(req, res, next, ALL_TODOS_PAGE_PATH);
+const getAllTodosPage = (req, res, next) => {
+  res.sendFile(path.join(__dirname, "../public", ALL_TODOS_PAGE_PATH));
+};
+
 const getSpecificTodoPage = (req, res, next) =>
-  fileHandler(req, res, next, TODO_PAGE_PATH);
+  res.sendFile(path.join(__dirname, "../public", TODO_PAGE_PATH));
 
 app.use(cookieHandler);
 app.use(readPostedData);
 app.use(logRequest);
 app.get("/", homepageHandler);
-app.get("/style.css", fileHandler);
-app.get("/authentication/login.js", fileHandler);
-app.get("/authentication/signup.html", fileHandler);
-app.get("/authentication/signup.js", fileHandler);
-app.get("/logo.png", fileHandler);
-app.get("/clip_board.png", fileHandler);
+app.use(express.static(HOME_PAGE_FILES));
 app.post("/login", loginHandler);
 app.post("/newaccount", newAccountHandler);
 app.use(isUserActive);
@@ -136,6 +138,6 @@ app.get(/\/todos\/del\/.*/, deleteTodoHandler);
 app.post("/saveTodo", updateTodoHandler);
 app.get(/\/todos\/[0-9]+/, getSpecificTodoPage);
 app.get("/todos", getAllTodosPage);
-app.use(fileHandler);
+app.use(express.static(ROOT));
 
-module.exports = app.handleRequest.bind(app);
+module.exports = app;

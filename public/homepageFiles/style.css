@@ -195,14 +195,16 @@ textarea {
   background-color: rgb(194, 252, 194);
 }
 .error {
+  word-wrap: break-word;
   color: maroon;
   background-color: #ffdce0;
 }
 
 .block {
+  width: 350px;
+
   margin: 10px;
   text-align: center;
-  width: 350px;
   border-radius: 5px;
   padding: 20px 10px;
 }

@@ -1,30 +1,9 @@
 const {
-  ROOT,
-  HOME_PAGE,
   USERS_LOGIN_DETAILS_PATH,
   USERS_TODO_DATA_PATH
 } = require("./constants");
 const Todos = require("./todoLists");
 const fs = require("fs");
-
-const fileHandler = function(req, res, next, requestedUrl) {
-  const url = requestedUrl || req.url;
-  const filePath = getFilePath(url);
-  console.log(filePath);
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.send("file not found", 404);
-      return 1;
-    }
-    res.send(data);
-  });
-};
-
-const getFilePath = function(url) {
-  if (url == "/") url = HOME_PAGE;
-  return ROOT + url;
-};
 
 const readPostedData = function(req, res, next) {
   let data = "";
@@ -76,7 +55,6 @@ const updateUserData = function(loginDetails) {
 };
 
 module.exports = {
-  fileHandler,
   readPostedData,
   getUserTodos,
   loadUserLoginData,
